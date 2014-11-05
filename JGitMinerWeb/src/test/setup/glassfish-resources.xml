@@ -5,7 +5,7 @@
         <property name="serverName" value="localhost"/>
         <property name="portNumber" value="5432"/>
         <property name="databaseName" value="jgitminerweb"/>
-        <property name="User" value="aluno"/>
+        <property name="User" value="postgre"/>
         <property name="Password" value="aluno"/>
         <property name="URL" value="jdbc:postgresql://localhost:5432/jgitminerweb"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
@@ -15,7 +15,7 @@
         <property name="serverName" value="localhost"/>
         <property name="portNumber" value="3306"/>
         <property name="databaseName" value="jgitminerweb"/>
-        <property name="User" value="aluno"/>
+        <property name="User" value="postgre"/>
         <property name="Password" value="aluno"/>
         <property name="URL" value="jdbc:mysql://localhost:3306/jgitminerweb?zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>

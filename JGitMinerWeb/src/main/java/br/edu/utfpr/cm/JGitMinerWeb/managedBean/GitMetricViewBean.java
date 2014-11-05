@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.edu.utfpr.cm.JGitMinerWeb.managedBean;
 
 import br.edu.utfpr.cm.JGitMinerWeb.dao.GenericDao;
@@ -15,23 +11,21 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import org.primefaces.model.StreamedContent;
 
 /**
  *
  * @author douglas
  */
-@ManagedBean(name = "gitMetricViewBean")
+@Named
 @RequestScoped
 public class GitMetricViewBean implements Serializable {
 
     private final String FOR_DELETE = "metricForDelete";
     private final String LIST = "metricList";
-    /*
-     * 
-     */
+
     @EJB
     private GenericDao dao;
 

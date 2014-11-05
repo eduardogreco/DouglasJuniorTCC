@@ -2,17 +2,20 @@ package br.edu.utfpr.cm.JGitMinerWeb.managedBean;
 
 import br.edu.utfpr.cm.JGitMinerWeb.services.miner.AuthServices;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
-@ManagedBean(name = "pagesManager")
+@Named
 @SessionScoped
 public class PagesManager implements Serializable {
 
-    private String header = "./pages/header.xhtml";
-    private String menu = "./pages/menu.xhtml";
+    // static pages
+    private static final String header = "./pages/header.xhtml";
+    private static final String menu = "./pages/menu.xhtml";
+    private static final String footer = "./pages/footer.xhtml";
+
+    // dynamic page se
     private String body = "./pages/home.xhtml";
-    private String footer = "./pages/footer.xhtml";
 
     public PagesManager() {
     }
@@ -58,6 +61,16 @@ public class PagesManager implements Serializable {
         return "refreshPage";
     }
 
+    public String matrixCreateQueue() {
+        this.body = "./pages/matrix/createQueue.xhtml";
+        return "refreshPage";
+    }
+
+    public String bichoMatrixCreateQueue() {
+        this.body = "./pages/matrix/bichoCreateQueue.xhtml";
+        return "refreshPage";
+    }
+
     public String matrixView() {
         this.body = "./pages/matrix/view.xhtml";
         return "refreshPage";
@@ -65,6 +78,11 @@ public class PagesManager implements Serializable {
 
     public String metricCreate() {
         this.body = "./pages/metric/create.xhtml";
+        return "refreshPage";
+    }
+
+    public String metricCreateQueue() {
+        this.body = "./pages/metric/createQueue.xhtml";
         return "refreshPage";
     }
 
