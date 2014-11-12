@@ -19,7 +19,7 @@ import org.eclipse.egit.github.core.client.PagedRequest;
 
 /**
  *
- * @author douglas
+ * @author eduardo
  */
 public class StarServices implements Serializable {
 
