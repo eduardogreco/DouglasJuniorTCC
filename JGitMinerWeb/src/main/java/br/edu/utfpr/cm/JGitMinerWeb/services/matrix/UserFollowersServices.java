@@ -18,13 +18,13 @@ import java.util.Map;
  *
  * @author eduardogreco
  */
-public class UserStarsServices extends AbstractMatrixServices {
+public class UserFollowersServices extends AbstractMatrixServices {
 
-    public UserStarsServices(GenericDao dao, OutLog out) {
+    public UserFollowersServices(GenericDao dao, OutLog out) {
         super(dao, out);
     }
 
-    public UserStarsServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
+    public UserFollowersServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
         super(dao, repository, matricesToSave, params, out);
     }
 
@@ -34,32 +34,35 @@ public class UserStarsServices extends AbstractMatrixServices {
         if (getRepository() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
+
         String jpql = "SELECT u "
                 + "FROM "
-                + "EntityUser u JOIN u.starredRepositories r "
+                + "EntityUser u JOIN u.collaboratedRepositories r "
                 + "WHERE "
                 + "r = :repo";
         String[] bdParams = new String[]{
             "repo"
         };
+
         Object[] bdObjects = new Object[]{
             getRepository()
         };
 
-        List<EntityUser> usersStars = dao.selectWithParams(jpql, bdParams, bdObjects);
+        List<EntityUser> usersFollowers = dao.selectWithParams(jpql, bdParams, bdObjects);
 
-        System.out.println(usersStars.size());
-        System.out.println(usersStars);
+        System.out.println(usersFollowers.size());
+        System.out.println(usersFollowers);
         EntityMatrix matrix = new EntityMatrix();
-        for (EntityUser u : usersStars) {
-            matrix.getNodes().add(new EntityMatrixNode(u.getLogin() != null ? u.getLogin() : u.getEmail()));
+        for (EntityUser u : usersFollowers) {
+            String login = u.getLogin() != null ? u.getLogin() : u.getEmail();
+            matrix.getNodes().add(new EntityMatrixNode(login + ";" + u.getFollowers()));
         }
         matricesToSave.add(matrix);
     }
 
     @Override
     public String getHeadCSV() {
-        return "user";
+        return "user;followers";
     }
 
 }

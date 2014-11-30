@@ -75,27 +75,28 @@ public class AuthServices implements Serializable {
     private static GitHubClient createClient(String user, String pass) throws Exception {
         GitHubClient cliente = new GitHubClient();
         cliente.setCredentials(user, pass);
-        OAuthService oauth = new OAuthService(cliente);
-        Authorization auth = new Authorization();
-
-        try {
-            String token;
-            if (oauth.getAuthorizations() == null || oauth.getAuthorizations().isEmpty()) {
-                auth = oauth.createAuthorization(auth);
-                token = auth.getToken();
-                System.out.println("autorizooou: " + token);
-            } else {
-                List<Authorization> auths = oauth.getAuthorizations();
-                System.out.println("autorizaçoes: " + auths.size());
-                System.out.println("autorização: " + auths.get(0));
-                token = auths.get(0).getToken();
-                System.out.println("token: " + token);
-            }
-            return new GitHubClient().setOAuth2Token(token);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
+        
+//        OAuthService oauth = new OAuthService(cliente);
+//        Authorization auth = new Authorization();
+//
+//        try {
+//            String token;
+//            if (oauth.getAuthorizations() == null || oauth.getAuthorizations().isEmpty()) {
+//                auth = oauth.createAuthorization(auth);
+//                token = auth.getToken();
+//                System.out.println("autorizooou: " + token);
+//            } else {
+//                List<Authorization> auths = oauth.getAuthorizations();
+//                System.out.println("autorizaçoes: " + auths.size());
+//                System.out.println("autorização: " + auths.get(0));
+//                token = auths.get(0).getToken();
+//                System.out.println("token: " + token);
+//            }
+//            return new GitHubClient().setOAuth2Token(token);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+        return cliente;
     }
 
     public static int getClientCount() {

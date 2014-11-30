@@ -336,7 +336,7 @@ public class EntityUser implements InterfaceEntity, Serializable {
         }
         repo.getCollaborators().add(this);
     }
-    
+
     public void addStarRepository(EntityRepository repo) {
         if (!starredRepositories.contains(repo)) {
             starredRepositories.add(repo);
@@ -374,5 +374,6 @@ public class EntityUser implements InterfaceEntity, Serializable {
     @Override
     public String toString() {
         return login;
+
     }
 }
