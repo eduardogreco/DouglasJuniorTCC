@@ -24,6 +24,7 @@ public class GitMinerRepositoryBean implements Serializable {
     private String repositoryName;
     private String repositoryOwnerLogin;
     private String repositoryUrl;
+    private List<EntityRepository> selectedRepository;
 
     public GitMinerRepositoryBean() {
         repository = new EntityRepository();
@@ -101,6 +102,14 @@ public class GitMinerRepositoryBean implements Serializable {
 
     public List<EntityRepository> getRepositoriesPrimaryMiner() {
         return dao.executeNamedQuery("Repository.findByPrimaryMiner");
+    }
+
+    public List<EntityRepository> getSelectedRepository() {
+        return selectedRepository;
+    }
+
+    public void setSelectedRepository(List<EntityRepository> selectedRepository) {
+        this.selectedRepository = selectedRepository;
     }
 
     private void parseRepositoryUrl() {

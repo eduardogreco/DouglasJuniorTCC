@@ -40,6 +40,7 @@ public class GitMatrixBean implements Serializable {
     private boolean initialized;
     private boolean fail;
     private boolean canceled;
+    private List<Class<?>> selectedClass;
 
     /**
      * Creates a new instance of GitNet
@@ -245,6 +246,14 @@ public class GitMatrixBean implements Serializable {
             ex.printStackTrace();
         }
         return cls;
+    }
+
+    public List<Class<?>> getSelectedClass() {
+        return selectedClass;
+    }
+
+    public void setSelectedClass(List<Class<?>> selectedClass) {
+        this.selectedClass = selectedClass;
     }
 
     private AbstractMatrixServices createMatrixServiceInstance(List<EntityMatrix> matricesToSave) {

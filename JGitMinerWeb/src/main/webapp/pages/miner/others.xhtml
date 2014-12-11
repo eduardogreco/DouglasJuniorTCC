@@ -9,7 +9,7 @@
             <p:panel id="panelMinerOther">
                 <h:outputLabel for="repositoryToMiner" value="Escolha o Repositório para mineração dos dados: "/>
 
-                <p:selectOneListbox id="repositoryToMiner"  style="height:100px;width:300px" value="#{gitMinerOthersBean.repositoryToMinerId}" >
+                <p:selectOneListbox id="repositoryToMiner" value="#{gitMinerOthersBean.repositoryToMinerId}" >
                     <f:selectItems value="#{gitMinerRepositoryBean.repositoriesPrimaryMiner}" var="repo" itemLabel="#{repo.name}, #{repo.owner.login}" itemDescription="#{repo.name}" itemValue="#{repo.id}" />
                 </p:selectOneListbox>
                 <br />
