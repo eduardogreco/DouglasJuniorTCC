@@ -49,6 +49,9 @@
                     <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop)" ajax="false" value="CSV">
                         <p:fileDownload value="#{gitMatrixViewBean.downloadCSV(matrix)}" />  
                     </p:commandButton> 
+                      <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop)" ajax="false" value="TXT">
+                        <p:fileDownload value="#{gitMatrixViewBean.downloadTXT(matrix)}" />  
+                    </p:commandButton> 
                     <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop)"  ajax="false" value="Params">
                         <p:fileDownload value="#{gitMatrixViewBean.downloadParams(matrix)}" />  
                     </p:commandButton> 

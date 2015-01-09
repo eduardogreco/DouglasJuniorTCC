@@ -30,8 +30,8 @@ public class UserModifySamePairOfFileInDateServices extends AbstractMatrixServic
         super(dao, out);
     }
 
-    public UserModifySamePairOfFileInDateServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserModifySamePairOfFileInDateServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     private String getPrefixFile() {
@@ -69,7 +69,7 @@ public class UserModifySamePairOfFileInDateServices extends AbstractMatrixServic
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -90,7 +90,7 @@ public class UserModifySamePairOfFileInDateServices extends AbstractMatrixServic
 
         List<EntityRepositoryCommit> commits = dao.selectWithParams(jpql,
                 new String[]{"repo", "beginDate", "endDate", "minFilesPerCommit"},
-                new Object[]{getRepository(), getBeginDate(), getEndDate(), minFilesPerCommit});
+                new Object[]{getRepositorys(), getBeginDate(), getEndDate(), minFilesPerCommit});
 
         // primeiro monta-se a rede dos desenvolvedores e os pares de arquivos
         List<AuxUserFileFile> temp = new ArrayList<>();

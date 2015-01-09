@@ -30,17 +30,17 @@ public class GitMatrixBean implements Serializable {
     @EJB
     private GenericDao dao;
     private OutLog out;
-    private EntityRepository repository;
-    private String repositoryId;
+    private List<String> selectedRepository;
+    private List<EntityRepository> repositorys;
     private Class<?> serviceClass;
     private Map<Object, Object> params;
+    private List <String> selectedFiltersParams;
     private String message;
     private Thread process;
     private Integer progress;
     private boolean initialized;
     private boolean fail;
     private boolean canceled;
-    private List<Class<?>> selectedClass;
 
     /**
      * Creates a new instance of GitNet
@@ -64,14 +64,6 @@ public class GitMatrixBean implements Serializable {
 
     public void setCanceled(boolean canceled) {
         this.canceled = canceled;
-    }
-
-    public String getRepositoryId() {
-        return repositoryId;
-    }
-
-    public void setRepositoryId(String repositoryId) {
-        this.repositoryId = repositoryId;
     }
 
     public Class<?> getServiceClass() {
@@ -123,22 +115,27 @@ public class GitMatrixBean implements Serializable {
     }
 
     public void start() {
+
         out.resetLog();
         initialized = false;
         canceled = false;
         fail = false;
         progress = 0;
-
-        repository = dao.findByID(repositoryId, EntityRepository.class);
+        
+        repositorys = new ArrayList<EntityRepository>();
+        for (String idRepository : selectedRepository) {
+            EntityRepository repository = dao.findByID(idRepository, EntityRepository.class);
+            repositorys.add(repository);
+        }
 
         out.printLog("Geração da rede iniciada!");
         out.printLog("");
         out.printLog("Params: " + params);
         out.printLog("Class Service: " + serviceClass);
-        out.printLog("Repository: " + repository);
+        out.printLog("Repository: " + repositorys.toString());
         out.printLog("");
 
-        if (repository == null || serviceClass == null) {
+        if (repositorys == null || repositorys.isEmpty() || serviceClass == null) {
             message = "Erro: Escolha o repositorio e o service desejado.";
             out.printLog(message);
             progress = 0;
@@ -172,7 +169,7 @@ public class GitMatrixBean implements Serializable {
                                 out.printLog("Salvando matriz com " + entityMatrix.getNodes().size() + " registros. Parametros: " + entityMatrix.getParams());
                                 entityMatrix.setStarted(started);
                                 entityMatrix.getParams().putAll(params);
-                                entityMatrix.setRepository(repository + "");
+                                entityMatrix.setRepository(repositorys.toString());
                                 entityMatrix.setClassServicesName(serviceClass.getName());
                                 entityMatrix.setLog(out.getLog().toString());
                                 for (EntityMatrixNode node : entityMatrix.getNodes()) {
@@ -248,17 +245,9 @@ public class GitMatrixBean implements Serializable {
         return cls;
     }
 
-    public List<Class<?>> getSelectedClass() {
-        return selectedClass;
-    }
-
-    public void setSelectedClass(List<Class<?>> selectedClass) {
-        this.selectedClass = selectedClass;
-    }
-
     private AbstractMatrixServices createMatrixServiceInstance(List<EntityMatrix> matricesToSave) {
         try {
-            return (AbstractMatrixServices) serviceClass.getConstructor(GenericDao.class, EntityRepository.class, List.class, Map.class, OutLog.class).newInstance(dao, repository, matricesToSave, params, out);
+            return (AbstractMatrixServices) serviceClass.getConstructor(GenericDao.class, List.class, List.class, Map.class, List.class, OutLog.class).newInstance(dao, repositorys, matricesToSave, params, getSelectedFiltersParams(), out);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -267,5 +256,21 @@ public class GitMatrixBean implements Serializable {
 
     public ClassConverter getConverterClass() {
         return new ClassConverter();
+    }
+
+    public List<String> getSelectedRepository() {
+        return selectedRepository;
+    }
+
+    public void setSelectedRepository(List<String> selectedRepository) {
+        this.selectedRepository = selectedRepository;
+    }
+
+    public List<String> getSelectedFiltersParams() {
+        return selectedFiltersParams;
+    }
+
+    public void setSelectedFiltersParams(List<String> selectedFiltersParams) {
+        this.selectedFiltersParams = selectedFiltersParams;
     }
 }

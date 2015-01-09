@@ -21,23 +21,30 @@ import java.util.Map;
  */
 public abstract class AbstractMatrixServices extends AbstractServices {
 
-    private final EntityRepository repository;
+    private final List<EntityRepository> repositorys;
     protected final List<EntityMatrix> matricesToSave;
+    protected final List<String> selectedFiltersParams;
 
     public AbstractMatrixServices(GenericDao dao, OutLog out) {
         super(dao, out);
-        this.repository = null;
+        this.repositorys = null;
         this.matricesToSave = null;
+        this.selectedFiltersParams = null;
     }
 
-    public AbstractMatrixServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
+    public AbstractMatrixServices(GenericDao dao, List<EntityRepository> repositorys, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
         super(dao, params, out);
-        this.repository = repository;
+        this.repositorys = repositorys;
         this.matricesToSave = matricesToSave;
+        this.selectedFiltersParams = selectedFiltersParams;
     }
 
-    public EntityRepository getRepository() {
-        return repository;
+    public List<EntityRepository> getRepositorys() {
+        return repositorys;
+    }
+
+    public List<String> getSelectedFiltersParams() {
+        return selectedFiltersParams;
     }
 
     @Override
@@ -58,4 +65,5 @@ public abstract class AbstractMatrixServices extends AbstractServices {
         }
         return nodes;
     }
+
 }

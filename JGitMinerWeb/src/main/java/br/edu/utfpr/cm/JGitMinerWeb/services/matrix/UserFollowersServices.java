@@ -24,14 +24,14 @@ public class UserFollowersServices extends AbstractMatrixServices {
         super(dao, out);
     }
 
-    public UserFollowersServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserFollowersServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     @Override
     public void run() {
         System.out.println(params);
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -45,7 +45,7 @@ public class UserFollowersServices extends AbstractMatrixServices {
         };
 
         Object[] bdObjects = new Object[]{
-            getRepository()
+            getRepositorys().get(0)
         };
 
         List<EntityUser> usersFollowers = dao.selectWithParams(jpql, bdParams, bdObjects);

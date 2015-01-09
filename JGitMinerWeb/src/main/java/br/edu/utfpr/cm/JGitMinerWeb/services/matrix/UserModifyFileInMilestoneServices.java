@@ -25,8 +25,8 @@ public class UserModifyFileInMilestoneServices extends AbstractMatrixServices {
         super(dao, out);
     }
 
-    public UserModifyFileInMilestoneServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserModifyFileInMilestoneServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     private int getMilestoneNumber() {
@@ -46,7 +46,7 @@ public class UserModifyFileInMilestoneServices extends AbstractMatrixServices {
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -75,7 +75,7 @@ public class UserModifyFileInMilestoneServices extends AbstractMatrixServices {
                     "suffixFile"
                 },
                 new Object[]{
-                    getRepository(),
+                    getRepositorys(),
                     mileNumber,
                     getPrefixFile(),
                     getSuffixFile()

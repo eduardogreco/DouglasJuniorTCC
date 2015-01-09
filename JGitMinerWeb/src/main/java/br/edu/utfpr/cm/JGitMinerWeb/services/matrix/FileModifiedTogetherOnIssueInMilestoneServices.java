@@ -26,8 +26,8 @@ public class FileModifiedTogetherOnIssueInMilestoneServices extends AbstractMatr
         super(dao, out);
     }
 
-    public FileModifiedTogetherOnIssueInMilestoneServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public FileModifiedTogetherOnIssueInMilestoneServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     public int getMilestoneNumber() {
@@ -47,7 +47,7 @@ public class FileModifiedTogetherOnIssueInMilestoneServices extends AbstractMatr
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -80,7 +80,7 @@ public class FileModifiedTogetherOnIssueInMilestoneServices extends AbstractMatr
         do {
             List<AuxFileFilePull> resultTemp = dao.selectWithParams(jpql,
                     new String[]{"repository", "milestoneNumber", "prefixFile", "suffixFile"},
-                    new Object[]{getRepository(), mileNumber, getPrefixFile(), getSuffixFile()},
+                    new Object[]{getRepositorys(), mileNumber, getPrefixFile(), getSuffixFile()},
                     offset, limit);
             countTemp = resultTemp.size();
             countTotal += countTemp;

@@ -26,8 +26,8 @@ public class UserModifySameFileInPullRequestServices extends AbstractMatrixServi
         super(dao, out);
     }
 
-    public UserModifySameFileInPullRequestServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserModifySameFileInPullRequestServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     public Long getBeginPullRequestNumber() {
@@ -57,7 +57,7 @@ public class UserModifySameFileInPullRequestServices extends AbstractMatrixServi
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -126,7 +126,7 @@ public class UserModifySameFileInPullRequestServices extends AbstractMatrixServi
                     "milestoneNumber"
                 },
                 new Object[]{
-                    getRepository(),
+                    getRepositorys(),
                     getPrefixFile(),
                     getSuffixFile(),
                     mileNumber
@@ -153,7 +153,7 @@ public class UserModifySameFileInPullRequestServices extends AbstractMatrixServi
                     "suffixFile"
                 },
                 new Object[]{
-                    getRepository(),
+                    getRepositorys(),
                     getBeginPullRequestNumber(),
                     getEndPullRequestNumber(),
                     getPrefixFile(),

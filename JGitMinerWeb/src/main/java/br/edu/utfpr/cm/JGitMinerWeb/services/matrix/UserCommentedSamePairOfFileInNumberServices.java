@@ -29,8 +29,8 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
         super(dao, out);
     }
 
-    public UserCommentedSamePairOfFileInNumberServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserCommentedSamePairOfFileInNumberServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     private String getPrefixFile() {
@@ -68,7 +68,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -96,7 +96,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
 
             issuesCommenteds = dao.selectWithParams(jpql,
                     new String[]{"repo", "beginNumber", "endNumber", "filesName"},
-                    new Object[]{getRepository(), getBeginNumber(), getEndNumber(), filesName});
+                    new Object[]{getRepositorys(), getBeginNumber(), getEndNumber(), filesName});
         } else if (prefix.length() > 1 || suffix.length() > 1) {
             jpql = "SELECT DISTINCT i "
                     + "FROM "
@@ -116,7 +116,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
                         "endNumber",
                         (prefix.length() > 1 ? "prefix " : "#none#"),
                         (suffix.length() > 1 ? "suffix" : "#none#")},
-                    new Object[]{getRepository(),
+                    new Object[]{getRepositorys(),
                         getBeginNumber(),
                         getEndNumber(),
                         prefix,
@@ -134,7 +134,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
 
             issuesCommenteds = dao.selectWithParams(jpql,
                     new String[]{"repo", "beginNumber", "endNumber"},
-                    new Object[]{getRepository(), getBeginNumber(), getEndNumber()});
+                    new Object[]{getRepositorys(), getBeginNumber(), getEndNumber()});
         }
 
         out.printLog("Issues comentadas: " + issuesCommenteds.size());
@@ -151,7 +151,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
 
             EntityPullRequest pr = dao.selectOneWithParams(jpql,
                     new String[]{"repo", "issue"},
-                    new Object[]{getRepository(), issue});
+                    new Object[]{getRepositorys(), issue});
 
             if (pr.getRepositoryCommits().isEmpty()) {
                 continue;

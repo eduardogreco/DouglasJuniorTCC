@@ -1,0 +1,26 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html" 
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+        <p:selectManyCheckbox id="basic" value="#{gitMatrixBean.selectedFiltersParams}">
+            <f:selectItem itemLabel="Stars" itemValue="STARS" />
+            <f:selectItem itemLabel="Age repository" itemValue="AGE_REPOSITORY" />
+            <f:selectItem itemLabel="Number of contributor" itemValue="NUMBER_CONTRIBUTOR" />
+            <f:selectItem itemLabel="Open issues" itemValue="OPEN_ISSUE" />
+            <f:selectItem itemLabel="Close issues" itemValue="CLOSE_ISSUE" />
+        </p:selectManyCheckbox>
+    </h:panelGrid>
+
+    <h:outputText value="Date: " />  
+    <h:panelGroup>
+        <p:calendar value="#{gitMatrixBean.paramValue['beginDate']}" id="beginDate" effect="explode" navigator="true" size="10" />      
+        <h:outputText value=" to " />        
+        <p:calendar value="#{gitMatrixBean.paramValue['endDate']}" id="endDate" effect="explode" navigator="true" size="10" />
+    </h:panelGroup>
+
+    <br />
+
+</div>
+

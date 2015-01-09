@@ -25,8 +25,8 @@ public class UserModifySameFileInMilestoneServices extends AbstractMatrixService
         super(dao, out);
     }
 
-    public UserModifySameFileInMilestoneServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserModifySameFileInMilestoneServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     public Long getBeginPullRequestNumber() {
@@ -67,7 +67,7 @@ public class UserModifySameFileInMilestoneServices extends AbstractMatrixService
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -109,7 +109,7 @@ public class UserModifySameFileInMilestoneServices extends AbstractMatrixService
             "milestoneNumber"
         };
         Object[] bdObjects = new Object[]{
-            getRepository(),
+            getRepositorys(),
             getFilesName(),
             getMilestoneNumber()
         };
@@ -157,7 +157,7 @@ public class UserModifySameFileInMilestoneServices extends AbstractMatrixService
             !getFilesName().isEmpty() ? "filesName" : "#none#"
         };
         Object[] bdObjects = new Object[]{
-            getRepository(),
+            getRepositorys(),
             getBeginDate(),
             getEndDate(),
             getFilesName()

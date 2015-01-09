@@ -1,8 +1,5 @@
 package br.edu.utfpr.cm.JGitMinerWeb.services.matrix.auxiliary;
 
-import br.edu.utfpr.cm.JGitMinerWeb.util.Util;
-import java.util.Objects;
-
 /**
  *
  * @author douglas
@@ -13,6 +10,8 @@ public class AuxRepositoryManyMetricas {
     private int qtdStars;
     private int qtdColabor;
     private int idade;
+    private int qtdOpenIssue;
+    private int qtdCloseIssue;
 
     public AuxRepositoryManyMetricas() {
 
@@ -50,8 +49,24 @@ public class AuxRepositoryManyMetricas {
         this.idade = idade;
     }
 
+    public int getQtdOpenIssue() {
+        return qtdOpenIssue;
+    }
+
+    public void setQtdOpenIssue(int qtdOpenIssue) {
+        this.qtdOpenIssue = qtdOpenIssue;
+    }
+
+    public int getQtdCloseIssue() {
+        return qtdCloseIssue;
+    }
+
+    public void setQtdCloseIssue(int qtdCloseIssue) {
+        this.qtdCloseIssue = qtdCloseIssue;
+    }
+
     @Override
     public String toString() {
-        return repositoryName + ";" + qtdStars + ";" + qtdColabor + ";" + idade;
+        return repositoryName + ";" + qtdStars + ";" + qtdColabor + ";" + idade + ";" + qtdOpenIssue + ";" + qtdCloseIssue;
     }
 }

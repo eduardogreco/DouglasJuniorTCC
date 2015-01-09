@@ -24,8 +24,8 @@ public class CochangeSupportConfidenceLiftConvictionInPullRequestsServices exten
         super(dao, out);
     }
 
-    public CochangeSupportConfidenceLiftConvictionInPullRequestsServices(GenericDao dao, EntityRepository repo, List<EntityMatrix> matrices, Map params, OutLog out) {
-        super(dao, repo, matrices, params, out);
+    public CochangeSupportConfidenceLiftConvictionInPullRequestsServices(GenericDao dao, List<EntityRepository> repo, List<EntityMatrix> matrices, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repo, matrices, params, selectedFiltersParams, out);
     }
 
     private Long getBeginDate() {
@@ -68,7 +68,7 @@ public class CochangeSupportConfidenceLiftConvictionInPullRequestsServices exten
     public void run() {
         try {
 
-            if (getRepository() == null) {
+            if (getRepositorys() == null) {
                 throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
             }
 
@@ -143,7 +143,7 @@ public class CochangeSupportConfidenceLiftConvictionInPullRequestsServices exten
 
             System.out.println(select);
 
-            selectParams.add(getRepository().getId());
+            selectParams.add(getRepositorys().get(0).getId());
             selectParams.add(beginPull);
             selectParams.add(endPull);
 
@@ -202,7 +202,7 @@ public class CochangeSupportConfidenceLiftConvictionInPullRequestsServices exten
         List<EntityMatrixNode> matrixNodes = entityMatrix.getNodes();
         entityMatrix.setNodes(new ArrayList<EntityMatrixNode>());
         entityMatrix.getParams().putAll(params);
-        entityMatrix.setRepository(getRepository() + "");
+        entityMatrix.setRepository(getRepositorys() + "");
         entityMatrix.setClassServicesName(this.getClass().getName());
         entityMatrix.setLog(out.getLog().toString());
         dao.insert(entityMatrix);
@@ -240,7 +240,7 @@ public class CochangeSupportConfidenceLiftConvictionInPullRequestsServices exten
             jpql += "  and pul.mergedat is not null ";
         }
 
-        selectParams.add(getRepository().getId());
+        selectParams.add(getRepositorys().get(0).getId());
         selectParams.add(beginPull);
         selectParams.add(endPull);
 

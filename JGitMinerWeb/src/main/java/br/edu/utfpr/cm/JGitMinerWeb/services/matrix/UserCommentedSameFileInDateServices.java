@@ -24,8 +24,8 @@ public class UserCommentedSameFileInDateServices extends AbstractMatrixServices 
         super(dao, out);
     }
 
-    public UserCommentedSameFileInDateServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserCommentedSameFileInDateServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     private String getPrefixFile() {
@@ -71,7 +71,7 @@ public class UserCommentedSameFileInDateServices extends AbstractMatrixServices 
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -104,7 +104,7 @@ public class UserCommentedSameFileInDateServices extends AbstractMatrixServices 
             (!filesName.isEmpty() ? "filesName" : "#none#")
         };
         Object[] bdObjects = new Object[]{
-            getRepository(),
+            getRepositorys(),
             getBeginDate(),
             getEndDate(),
             prefix,

@@ -24,8 +24,8 @@ public class UserCommentInIssueServices extends AbstractMatrixServices {
         super(dao, out);
     }
 
-    public UserCommentInIssueServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserCommentInIssueServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     private int getMilestoneNumber() {
@@ -43,7 +43,7 @@ public class UserCommentInIssueServices extends AbstractMatrixServices {
 
     @Override
     public void run() {
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -84,7 +84,7 @@ public class UserCommentInIssueServices extends AbstractMatrixServices {
                     "repo",
                     "milestoneNumber"
                 }, new Object[]{
-                    getRepository(),
+                    getRepositorys(),
                     getMilestoneNumber()
                 });
         return nodes;
@@ -106,7 +106,7 @@ public class UserCommentInIssueServices extends AbstractMatrixServices {
                     "dataInicial",
                     "dataFinal"
                 }, new Object[]{
-                    getRepository(),
+                    getRepositorys(),
                     getBeginDate(),
                     getEndDate()
                 });

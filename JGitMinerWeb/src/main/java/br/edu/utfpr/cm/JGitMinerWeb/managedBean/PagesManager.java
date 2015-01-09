@@ -90,11 +90,6 @@ public class PagesManager implements Serializable {
         this.body = "./pages/metric/view.xhtml";
         return "refreshPage";
     }
-    
-    public String tccEduardoCreate() {
-        this.body = "./pages/tccEduardo/create.xhtml";
-        return "refreshPage";
-    }
 
     public int getClientCount() {
         return AuthServices.getClientCount();

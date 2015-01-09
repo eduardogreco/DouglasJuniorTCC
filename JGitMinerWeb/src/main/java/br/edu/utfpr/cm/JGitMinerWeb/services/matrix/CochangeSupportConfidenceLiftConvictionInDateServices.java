@@ -26,8 +26,8 @@ public class CochangeSupportConfidenceLiftConvictionInDateServices extends Abstr
         super(dao, out);
     }
 
-    public CochangeSupportConfidenceLiftConvictionInDateServices(GenericDao dao, EntityRepository repo, List<EntityMatrix> matrices, Map params, OutLog out) {
-        super(dao, repo, matrices, params, out);
+    public CochangeSupportConfidenceLiftConvictionInDateServices(GenericDao dao, List<EntityRepository> repo, List<EntityMatrix> matrices, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repo, matrices, params, selectedFiltersParams, out);
     }
 
     private Date getBeginDate() {
@@ -72,7 +72,7 @@ public class CochangeSupportConfidenceLiftConvictionInDateServices extends Abstr
             PairFileDAO pairFileDAO = new PairFileDAO(dao);
             FileDAO fileDAO = new FileDAO(dao);
 
-            if (getRepository() == null) {
+            if (getRepositorys() == null) {
                 throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
             }
 
@@ -100,7 +100,7 @@ public class CochangeSupportConfidenceLiftConvictionInDateServices extends Abstr
                     .append("  and i.commentscount > 1 ")
                     .append("  and pul.createdat between ? and ? ");
 
-            selectParams.add(getRepository().getId());
+            selectParams.add(getRepositorys().get(0).getId());
             selectParams.add(beginDate);
             selectParams.add(endDate);
 
@@ -166,12 +166,12 @@ public class CochangeSupportConfidenceLiftConvictionInDateServices extends Abstr
                 // o arquivo deve aparecer em mais de 1 pull request e não somente 1
                 // caso contrário não é incluso
                 long file1PullRequestIn = fileDAO.calculeNumberOfPullRequestWhereFileIsIn(
-                        getRepository(), pairFile.getFile(),
+                        getRepositorys().get(0), pairFile.getFile(),
                         beginDate, endDate, 0, getMaxFilesPerCommit(), isOnlyMergeds());
                 if (file1PullRequestIn > 1) {
 
                     long file2PullRequestIn = fileDAO.calculeNumberOfPullRequestWhereFileIsIn(
-                            getRepository(), pairFile.getFile2(),
+                            getRepositorys().get(0), pairFile.getFile2(),
                             beginDate, endDate, 0, getMaxFilesPerCommit(), isOnlyMergeds());
                     if (file2PullRequestIn > 1) {
                         pairFileMetrics.add(pairFile);
@@ -193,11 +193,11 @@ public class CochangeSupportConfidenceLiftConvictionInDateServices extends Abstr
                     System.out.println(i + "/" + pairFileMetrics.size());
                 }
 
-                Long pairFileNumberOfPullrequestOfPair = pairFileDAO.calculeNumberOfPullRequest(getRepository(), pairFile.getFile(), pairFile.getFile2(), getBeginDate(), getEndDate(), isOnlyMergeds());
-                Long pairFileNumberOfPullrequestOfPairFuture = pairFileDAO.calculeNumberOfPullRequest(getRepository(), pairFile.getFile(), pairFile.getFile2(), futureBeginDate, futureEndDate, isOnlyMergeds());
-                Long fileNumberOfPullrequestOfPairFuture = pairFileDAO.calculeNumberOfPullRequest(getRepository(), pairFile.getFile(), null, futureBeginDate, futureEndDate, isOnlyMergeds());
-                Long file2NumberOfPullrequestOfPairFuture = pairFileDAO.calculeNumberOfPullRequest(getRepository(), pairFile.getFile2(), null, futureBeginDate, futureEndDate, isOnlyMergeds());
-                Long numberOfAllPullrequestFuture = pairFileDAO.calculeNumberOfPullRequest(getRepository(), null, null, futureBeginDate, futureEndDate, isOnlyMergeds());
+                Long pairFileNumberOfPullrequestOfPair = pairFileDAO.calculeNumberOfPullRequest(getRepositorys().get(0), pairFile.getFile(), pairFile.getFile2(), getBeginDate(), getEndDate(), isOnlyMergeds());
+                Long pairFileNumberOfPullrequestOfPairFuture = pairFileDAO.calculeNumberOfPullRequest(getRepositorys().get(0), pairFile.getFile(), pairFile.getFile2(), futureBeginDate, futureEndDate, isOnlyMergeds());
+                Long fileNumberOfPullrequestOfPairFuture = pairFileDAO.calculeNumberOfPullRequest(getRepositorys().get(0), pairFile.getFile(), null, futureBeginDate, futureEndDate, isOnlyMergeds());
+                Long file2NumberOfPullrequestOfPairFuture = pairFileDAO.calculeNumberOfPullRequest(getRepositorys().get(0), pairFile.getFile2(), null, futureBeginDate, futureEndDate, isOnlyMergeds());
+                Long numberOfAllPullrequestFuture = pairFileDAO.calculeNumberOfPullRequest(getRepositorys().get(0), null, null, futureBeginDate, futureEndDate, isOnlyMergeds());
 
                 pairFile.addMetrics(pairFileNumberOfPullrequestOfPair, pairFileNumberOfPullrequestOfPairFuture, fileNumberOfPullrequestOfPairFuture, file2NumberOfPullrequestOfPairFuture, numberOfAllPullrequestFuture);
 
@@ -231,7 +231,7 @@ public class CochangeSupportConfidenceLiftConvictionInDateServices extends Abstr
         List<EntityMatrixNode> matrixNodes = entityMatrix.getNodes();
         entityMatrix.setNodes(new ArrayList<EntityMatrixNode>());
         entityMatrix.getParams().putAll(params);
-        entityMatrix.setRepository(getRepository() + "");
+        entityMatrix.setRepository(getRepositorys() + "");
         entityMatrix.setClassServicesName(this.getClass().getName());
         entityMatrix.setLog(out.getLog().toString());
         dao.insert(entityMatrix);

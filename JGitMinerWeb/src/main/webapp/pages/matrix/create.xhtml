@@ -9,10 +9,11 @@
         <h:form prependId="false" id="formMatrix" >
             <p:growl globalOnly="true" id="messages" />
 
+
             <b><h:outputText value="Select a Repository: " /></b>  
-            <p:selectOneListbox style="height:200px;width:100%"  id="repositories" value="#{gitMatrixBean.repositoryId}"  >
-                <f:selectItems value="#{gitMinerRepositoryBean.repositoriesPrimaryMiner}" var="repo" itemLabel="#{repo.name} / #{repo.owner.login}" itemDescription="#{repo.name}" itemValue="#{repo.id}" />
-            </p:selectOneListbox>
+            <p:selectManyMenu style="height:200px;width:100%"  id="repositories" value="#{gitMatrixBean.selectedRepository}"  >
+                <f:selectItems value="#{gitMinerRepositoryBean.repositoriesPrimaryMiner}" var="repo" itemLabel="#{repo.name} / #{repo.owner.login}" itemValue="#{repo.id}" />
+            </p:selectManyMenu>
 
             <br />
 
@@ -35,7 +36,9 @@
             <br />
 
             <p:commandButton widgetVar="startButtonVar" type="submit" actionListener="#{gitMatrixBean.start()}" value="Start" 
-                             onclick="startButtonVar.disable();progressVar.start();textAreaUpdaterVar.start();" update="loadingImage,logTextArea" />
+                             onclick="startButtonVar.disable();
+                                     progressVar.start();
+                                     textAreaUpdaterVar.start();" update="loadingImage,logTextArea" />
 
             <p:commandButton value="Cancel" actionListener="#{gitMatrixBean.cancel()}" oncomplete="startButtonVar.enable();progressVar.cancel();" />
 

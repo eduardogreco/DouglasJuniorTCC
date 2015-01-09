@@ -40,8 +40,8 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
         super(dao, out);
     }
 
-    public UserCommentedSamePairOfFileInAllDateServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserCommentedSamePairOfFileInAllDateServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     private String getPrefixFile() {
@@ -76,7 +76,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -145,7 +145,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
 
             issuesCommenteds = dao.selectWithParams(jpql,
                     new String[]{"repo", "beginDate", "endDate", "filesName"},
-                    new Object[]{getRepository(), beginDate, endDate, filesName});
+                    new Object[]{getRepositorys(), beginDate, endDate, filesName});
         } else if (prefix.length() > 1 || suffix.length() > 1) {
             String jpql = "SELECT DISTINCT i "
                     + "FROM "
@@ -165,7 +165,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
                         "endDate",
                         (prefix.length() > 1 ? "prefix " : "#none#"),
                         (suffix.length() > 1 ? "suffix" : "#none#")},
-                    new Object[]{getRepository(),
+                    new Object[]{getRepositorys(),
                         beginDate,
                         endDate,
                         prefix,
@@ -183,7 +183,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
 
             issuesCommenteds = dao.selectWithParams(jpql,
                     new String[]{"repo", "beginDate", "endDate"},
-                    new Object[]{getRepository(), beginDate, endDate});
+                    new Object[]{getRepositorys(), beginDate, endDate});
         }
 
         out.printLog("Issues comentadas: " + issuesCommenteds.size());
@@ -200,7 +200,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
 
             EntityPullRequest pr = dao.selectOneWithParams(jpql,
                     new String[]{"repo", "issue"},
-                    new Object[]{getRepository(), issue});
+                    new Object[]{getRepositorys(), issue});
 
             if (pr.getRepositoryCommits().isEmpty()) {
                 continue;
@@ -308,7 +308,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
         List<EntityMatrixNode> matrixNodes = entityMatrix.getNodes();
         entityMatrix.setNodes(new ArrayList<EntityMatrixNode>());
         entityMatrix.getParams().putAll(params);
-        entityMatrix.setRepository(getRepository() + "");
+        entityMatrix.setRepository(getRepositorys() + "");
         entityMatrix.setClassServicesName(this.getClass().getName());
         entityMatrix.setLog(out.getLog().toString());
         dao.insert(entityMatrix);

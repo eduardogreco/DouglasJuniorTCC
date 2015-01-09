@@ -27,8 +27,8 @@ public class FilesModifiedMoreServices extends AbstractMatrixServices {
         super(dao, out);
     }
 
-    public FilesModifiedMoreServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public FilesModifiedMoreServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     private int getMilestoneNumber() {
@@ -59,7 +59,7 @@ public class FilesModifiedMoreServices extends AbstractMatrixServices {
 
     @Override
     public void run() {
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -115,7 +115,7 @@ public class FilesModifiedMoreServices extends AbstractMatrixServices {
                     "prefix",
                     "suffix"
                 }, new Object[]{
-                    getRepository(),
+                    getRepositorys(),
                     getMilestoneNumber(),
                     getIssueLabels(),
                     getPrefixFile(),
@@ -147,7 +147,7 @@ public class FilesModifiedMoreServices extends AbstractMatrixServices {
                     "prefix",
                     "suffix"
                 }, new Object[]{
-                    getRepository(),
+                    getRepositorys(),
                     getIssueLabels(),
                     getBeginDate(),
                     getEndDate(),

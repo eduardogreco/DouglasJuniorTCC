@@ -34,8 +34,8 @@ public class UserCommentedSamePairOfFileInDateServices extends AbstractMatrixSer
         super(dao, out);
     }
 
-    public UserCommentedSamePairOfFileInDateServices(GenericDao dao, EntityRepository repository, List<EntityMatrix> matricesToSave, Map params, OutLog out) {
-        super(dao, repository, matricesToSave, params, out);
+    public UserCommentedSamePairOfFileInDateServices(GenericDao dao, List<EntityRepository> repository, List<EntityMatrix> matricesToSave, Map params, List<String> selectedFiltersParams, OutLog out) {
+        super(dao, repository, matricesToSave, params, selectedFiltersParams, out);
     }
 
     private Integer getMaxFilesPerCommit() {
@@ -70,7 +70,7 @@ public class UserCommentedSamePairOfFileInDateServices extends AbstractMatrixSer
     public void run() {
         System.out.println(params);
 
-        if (getRepository() == null) {
+        if (getRepositorys() == null) {
             throw new IllegalArgumentException("Parâmetro Repository não pode ser nulo.");
         }
 
@@ -91,7 +91,7 @@ public class UserCommentedSamePairOfFileInDateServices extends AbstractMatrixSer
         paramNames.add("endDate");
 
         final List<Object> paramValues = new ArrayList<>();
-        paramValues.add(getRepository());
+        paramValues.add(getRepositorys());
         paramValues.add(beginDate);
         paramValues.add(endDate);
         
@@ -142,7 +142,7 @@ public class UserCommentedSamePairOfFileInDateServices extends AbstractMatrixSer
 
             EntityPullRequest pr = dao.selectOneWithParams(selectPullRequests,
                     selectPullRequestsParams,
-                    new Object[]{getRepository(), beginDate, endDate, issue});
+                    new Object[]{getRepositorys(), beginDate, endDate, issue});
 
             out.printLog("Pull Request #" + pr.getId());
             if (pr.getRepositoryCommits().isEmpty()) {
@@ -158,7 +158,7 @@ public class UserCommentedSamePairOfFileInDateServices extends AbstractMatrixSer
                 if (comm.getFiles().size() <= getMaxFilesPerCommit()) {
                     for (EntityCommitFile entityCommitFile : comm.getFiles()) {
                         long countPullRequestIn = fileDAO.calculeNumberOfPullRequestWhereFileIsIn(
-                                getRepository(), entityCommitFile.getFilename(),
+                                getRepositorys().get(0), entityCommitFile.getFilename(),
                                 beginDate, endDate, 0, getMaxFilesPerCommit(), isOnlyMerged());
                         if (//!fileToIgnore.matcher(file2.getFilename()).matches() &&
                                 fileToConsiders.matcher(entityCommitFile.getFilename()).matches()
