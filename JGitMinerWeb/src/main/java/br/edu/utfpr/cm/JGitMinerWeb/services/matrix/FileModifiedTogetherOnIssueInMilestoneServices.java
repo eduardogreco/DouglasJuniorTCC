@@ -80,7 +80,7 @@ public class FileModifiedTogetherOnIssueInMilestoneServices extends AbstractMatr
         do {
             List<AuxFileFilePull> resultTemp = dao.selectWithParams(jpql,
                     new String[]{"repository", "milestoneNumber", "prefixFile", "suffixFile"},
-                    new Object[]{getRepositorys(), mileNumber, getPrefixFile(), getSuffixFile()},
+                    new Object[]{getRepositorys().get(0), mileNumber, getPrefixFile(), getSuffixFile()},
                     offset, limit);
             countTemp = resultTemp.size();
             countTotal += countTemp;

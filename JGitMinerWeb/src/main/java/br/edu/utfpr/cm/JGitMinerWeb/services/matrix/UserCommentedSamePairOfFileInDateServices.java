@@ -91,7 +91,7 @@ public class UserCommentedSamePairOfFileInDateServices extends AbstractMatrixSer
         paramNames.add("endDate");
 
         final List<Object> paramValues = new ArrayList<>();
-        paramValues.add(getRepositorys());
+        paramValues.add(getRepositorys().get(0));
         paramValues.add(beginDate);
         paramValues.add(endDate);
         
@@ -142,7 +142,7 @@ public class UserCommentedSamePairOfFileInDateServices extends AbstractMatrixSer
 
             EntityPullRequest pr = dao.selectOneWithParams(selectPullRequests,
                     selectPullRequestsParams,
-                    new Object[]{getRepositorys(), beginDate, endDate, issue});
+                    new Object[]{getRepositorys().get(0), beginDate, endDate, issue});
 
             out.printLog("Pull Request #" + pr.getId());
             if (pr.getRepositoryCommits().isEmpty()) {

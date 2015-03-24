@@ -104,7 +104,7 @@ public class UserCommentedSameFileInDateServices extends AbstractMatrixServices 
             (!filesName.isEmpty() ? "filesName" : "#none#")
         };
         Object[] bdObjects = new Object[]{
-            getRepositorys(),
+            getRepositorys().get(0),
             getBeginDate(),
             getEndDate(),
             prefix,

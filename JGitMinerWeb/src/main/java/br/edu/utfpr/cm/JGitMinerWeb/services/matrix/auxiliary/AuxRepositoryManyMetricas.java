@@ -2,19 +2,22 @@ package br.edu.utfpr.cm.JGitMinerWeb.services.matrix.auxiliary;
 
 /**
  *
- * @author douglas
+ * @author eduardo
  */
 public class AuxRepositoryManyMetricas {
 
     private String repositoryName;
-    private int qtdStars;
-    private int qtdColabor;
-    private int idade;
-    private int qtdOpenIssue;
-    private int qtdCloseIssue;
+    private int amountStars;
+    private int amountContributors;
+    private int ageInMonths;
+    private int amountOpenIssue;
+    private int amountCloseIssue;
+    private int amountCommentsIssues;
+    private int amountCommits;
+    private int amountFollowersUsersProject;
+    private Long amountCommentsClosedPullRequest;
 
     public AuxRepositoryManyMetricas() {
-
     }
 
     public String getRepositoryName() {
@@ -25,48 +28,80 @@ public class AuxRepositoryManyMetricas {
         this.repositoryName = repositoryName;
     }
 
-    public int getQtdStars() {
-        return qtdStars;
+    public int getAmountStars() {
+        return amountStars;
     }
 
-    public void setQtdStars(int qtdStars) {
-        this.qtdStars = qtdStars;
+    public void setAmountStars(int amountStars) {
+        this.amountStars = amountStars;
     }
 
-    public int getQtdColabor() {
-        return qtdColabor;
+    public int getAmountContributors() {
+        return amountContributors;
     }
 
-    public void setQtdColabor(int qtdColabor) {
-        this.qtdColabor = qtdColabor;
+    public void setAmountContributors(int amountContributors) {
+        this.amountContributors = amountContributors;
     }
 
-    public int getIdade() {
-        return idade;
+    public int getAgeInMonths() {
+        return ageInMonths;
     }
 
-    public void setIdade(int idade) {
-        this.idade = idade;
+    public void setAgeInMonths(int ageInMonths) {
+        this.ageInMonths = ageInMonths;
     }
 
-    public int getQtdOpenIssue() {
-        return qtdOpenIssue;
+    public int getAmountOpenIssue() {
+        return amountOpenIssue;
     }
 
-    public void setQtdOpenIssue(int qtdOpenIssue) {
-        this.qtdOpenIssue = qtdOpenIssue;
+    public void setAmountOpenIssue(int amountOpenIssue) {
+        this.amountOpenIssue = amountOpenIssue;
     }
 
-    public int getQtdCloseIssue() {
-        return qtdCloseIssue;
+    public int getAmountCloseIssue() {
+        return amountCloseIssue;
     }
 
-    public void setQtdCloseIssue(int qtdCloseIssue) {
-        this.qtdCloseIssue = qtdCloseIssue;
+    public void setAmountCloseIssue(int amountCloseIssue) {
+        this.amountCloseIssue = amountCloseIssue;
+    }
+
+    public int getAmountCommentsIssues() {
+        return amountCommentsIssues;
+    }
+
+    public void setAmountCommentsIssues(int amountCommentsIssues) {
+        this.amountCommentsIssues = amountCommentsIssues;
+    }
+
+    public int getAmountCommits() {
+        return amountCommits;
+    }
+
+    public void setAmountCommits(int amountCommits) {
+        this.amountCommits = amountCommits;
+    }
+
+    public int getAmountFollowersUsersProject() {
+        return amountFollowersUsersProject;
+    }
+
+    public void setAmountFollowersUsersProject(int amountFollowersUsersProject) {
+        this.amountFollowersUsersProject = amountFollowersUsersProject;
+    }
+
+    public Long getAmountCommentsClosedPullRequest() {
+        return amountCommentsClosedPullRequest;
+    }
+
+    public void setAmountCommentsClosedPullRequest(Long amountCommentsClosedPullRequest) {
+        this.amountCommentsClosedPullRequest = amountCommentsClosedPullRequest;
     }
 
     @Override
     public String toString() {
-        return repositoryName + ";" + qtdStars + ";" + qtdColabor + ";" + idade + ";" + qtdOpenIssue + ";" + qtdCloseIssue;
+        return repositoryName + ";" + amountStars + ";" + amountContributors + ";" + ageInMonths + ";" + amountOpenIssue + ";" + amountCloseIssue + ";" + amountCommentsIssues + ";" + amountCommits + ";" + amountFollowersUsersProject + ";" + amountCommentsClosedPullRequest;
     }
 }

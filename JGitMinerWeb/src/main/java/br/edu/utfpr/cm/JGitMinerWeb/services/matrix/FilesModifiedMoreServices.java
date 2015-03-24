@@ -115,7 +115,7 @@ public class FilesModifiedMoreServices extends AbstractMatrixServices {
                     "prefix",
                     "suffix"
                 }, new Object[]{
-                    getRepositorys(),
+                    getRepositorys().get(0),
                     getMilestoneNumber(),
                     getIssueLabels(),
                     getPrefixFile(),
@@ -147,7 +147,7 @@ public class FilesModifiedMoreServices extends AbstractMatrixServices {
                     "prefix",
                     "suffix"
                 }, new Object[]{
-                    getRepositorys(),
+                    getRepositorys().get(0),
                     getIssueLabels(),
                     getBeginDate(),
                     getEndDate(),

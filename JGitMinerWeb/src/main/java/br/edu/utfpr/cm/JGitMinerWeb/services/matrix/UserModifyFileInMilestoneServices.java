@@ -75,7 +75,7 @@ public class UserModifyFileInMilestoneServices extends AbstractMatrixServices {
                     "suffixFile"
                 },
                 new Object[]{
-                    getRepositorys(),
+                    getRepositorys().get(0),
                     mileNumber,
                     getPrefixFile(),
                     getSuffixFile()

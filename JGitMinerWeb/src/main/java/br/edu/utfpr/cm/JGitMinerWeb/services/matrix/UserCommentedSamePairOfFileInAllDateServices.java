@@ -145,7 +145,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
 
             issuesCommenteds = dao.selectWithParams(jpql,
                     new String[]{"repo", "beginDate", "endDate", "filesName"},
-                    new Object[]{getRepositorys(), beginDate, endDate, filesName});
+                    new Object[]{getRepositorys().get(0), beginDate, endDate, filesName});
         } else if (prefix.length() > 1 || suffix.length() > 1) {
             String jpql = "SELECT DISTINCT i "
                     + "FROM "
@@ -165,7 +165,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
                         "endDate",
                         (prefix.length() > 1 ? "prefix " : "#none#"),
                         (suffix.length() > 1 ? "suffix" : "#none#")},
-                    new Object[]{getRepositorys(),
+                    new Object[]{getRepositorys().get(0),
                         beginDate,
                         endDate,
                         prefix,
@@ -183,7 +183,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
 
             issuesCommenteds = dao.selectWithParams(jpql,
                     new String[]{"repo", "beginDate", "endDate"},
-                    new Object[]{getRepositorys(), beginDate, endDate});
+                    new Object[]{getRepositorys().get(0), beginDate, endDate});
         }
 
         out.printLog("Issues comentadas: " + issuesCommenteds.size());
@@ -200,7 +200,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
 
             EntityPullRequest pr = dao.selectOneWithParams(jpql,
                     new String[]{"repo", "issue"},
-                    new Object[]{getRepositorys(), issue});
+                    new Object[]{getRepositorys().get(0), issue});
 
             if (pr.getRepositoryCommits().isEmpty()) {
                 continue;
@@ -308,7 +308,7 @@ public class UserCommentedSamePairOfFileInAllDateServices extends AbstractMatrix
         List<EntityMatrixNode> matrixNodes = entityMatrix.getNodes();
         entityMatrix.setNodes(new ArrayList<EntityMatrixNode>());
         entityMatrix.getParams().putAll(params);
-        entityMatrix.setRepository(getRepositorys() + "");
+        entityMatrix.setRepository(getRepositorys().get(0) + "");
         entityMatrix.setClassServicesName(this.getClass().getName());
         entityMatrix.setLog(out.getLog().toString());
         dao.insert(entityMatrix);

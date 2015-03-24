@@ -95,7 +95,7 @@ public class UserModifySameFileInDateServices extends AbstractMatrixServices {
             "endDate"
         };
         Object[] bdObjects = new Object[]{
-            getRepositorys(),
+            getRepositorys().get(0),
             prefix,
             suffix,
             filesName,

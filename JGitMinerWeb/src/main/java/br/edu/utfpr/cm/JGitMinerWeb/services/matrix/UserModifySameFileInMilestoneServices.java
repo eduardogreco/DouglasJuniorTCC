@@ -109,7 +109,7 @@ public class UserModifySameFileInMilestoneServices extends AbstractMatrixService
             "milestoneNumber"
         };
         Object[] bdObjects = new Object[]{
-            getRepositorys(),
+            getRepositorys().get(0),
             getFilesName(),
             getMilestoneNumber()
         };
@@ -157,7 +157,7 @@ public class UserModifySameFileInMilestoneServices extends AbstractMatrixService
             !getFilesName().isEmpty() ? "filesName" : "#none#"
         };
         Object[] bdObjects = new Object[]{
-            getRepositorys(),
+            getRepositorys().get(0),
             getBeginDate(),
             getEndDate(),
             getFilesName()

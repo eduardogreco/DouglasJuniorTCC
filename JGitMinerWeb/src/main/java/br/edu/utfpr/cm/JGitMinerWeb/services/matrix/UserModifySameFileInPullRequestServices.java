@@ -126,7 +126,7 @@ public class UserModifySameFileInPullRequestServices extends AbstractMatrixServi
                     "milestoneNumber"
                 },
                 new Object[]{
-                    getRepositorys(),
+                    getRepositorys().get(0),
                     getPrefixFile(),
                     getSuffixFile(),
                     mileNumber
@@ -153,7 +153,7 @@ public class UserModifySameFileInPullRequestServices extends AbstractMatrixServi
                     "suffixFile"
                 },
                 new Object[]{
-                    getRepositorys(),
+                    getRepositorys().get(0),
                     getBeginPullRequestNumber(),
                     getEndPullRequestNumber(),
                     getPrefixFile(),

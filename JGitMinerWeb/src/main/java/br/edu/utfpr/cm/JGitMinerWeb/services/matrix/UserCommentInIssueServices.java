@@ -84,7 +84,7 @@ public class UserCommentInIssueServices extends AbstractMatrixServices {
                     "repo",
                     "milestoneNumber"
                 }, new Object[]{
-                    getRepositorys(),
+                    getRepositorys().get(0),
                     getMilestoneNumber()
                 });
         return nodes;
@@ -106,7 +106,7 @@ public class UserCommentInIssueServices extends AbstractMatrixServices {
                     "dataInicial",
                     "dataFinal"
                 }, new Object[]{
-                    getRepositorys(),
+                    getRepositorys().get(0),
                     getBeginDate(),
                     getEndDate()
                 });

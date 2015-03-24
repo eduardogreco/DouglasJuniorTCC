@@ -96,7 +96,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
 
             issuesCommenteds = dao.selectWithParams(jpql,
                     new String[]{"repo", "beginNumber", "endNumber", "filesName"},
-                    new Object[]{getRepositorys(), getBeginNumber(), getEndNumber(), filesName});
+                    new Object[]{getRepositorys().get(0), getBeginNumber(), getEndNumber(), filesName});
         } else if (prefix.length() > 1 || suffix.length() > 1) {
             jpql = "SELECT DISTINCT i "
                     + "FROM "
@@ -116,7 +116,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
                         "endNumber",
                         (prefix.length() > 1 ? "prefix " : "#none#"),
                         (suffix.length() > 1 ? "suffix" : "#none#")},
-                    new Object[]{getRepositorys(),
+                    new Object[]{getRepositorys().get(0),
                         getBeginNumber(),
                         getEndNumber(),
                         prefix,
@@ -134,7 +134,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
 
             issuesCommenteds = dao.selectWithParams(jpql,
                     new String[]{"repo", "beginNumber", "endNumber"},
-                    new Object[]{getRepositorys(), getBeginNumber(), getEndNumber()});
+                    new Object[]{getRepositorys().get(0), getBeginNumber(), getEndNumber()});
         }
 
         out.printLog("Issues comentadas: " + issuesCommenteds.size());
@@ -151,7 +151,7 @@ public class UserCommentedSamePairOfFileInNumberServices extends AbstractMatrixS
 
             EntityPullRequest pr = dao.selectOneWithParams(jpql,
                     new String[]{"repo", "issue"},
-                    new Object[]{getRepositorys(), issue});
+                    new Object[]{getRepositorys().get(0), issue});
 
             if (pr.getRepositoryCommits().isEmpty()) {
                 continue;

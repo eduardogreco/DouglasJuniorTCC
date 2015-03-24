@@ -111,7 +111,7 @@ public class UserCommentedSameFileServices extends AbstractMatrixServices {
             "milestoneNumber"
         };
         Object[] bdObjects = new Object[]{
-            getRepositorys(),
+            getRepositorys().get(0),
             getFilesName(),
             getMilestoneNumber()
         };
@@ -183,7 +183,7 @@ public class UserCommentedSameFileServices extends AbstractMatrixServices {
             !getFilesName().isEmpty() ? "filesName" : "#none#"
         };
         Object[] bdObjects = new Object[]{
-            getRepositorys(),
+            getRepositorys().get(0),
             getBeginDate(),
             getEndDate(),
             getFilesName()

@@ -231,7 +231,7 @@ public class CochangeSupportConfidenceLiftConvictionInDateServices extends Abstr
         List<EntityMatrixNode> matrixNodes = entityMatrix.getNodes();
         entityMatrix.setNodes(new ArrayList<EntityMatrixNode>());
         entityMatrix.getParams().putAll(params);
-        entityMatrix.setRepository(getRepositorys() + "");
+        entityMatrix.setRepository(getRepositorys().get(0) + "");
         entityMatrix.setClassServicesName(this.getClass().getName());
         entityMatrix.setLog(out.getLog().toString());
         dao.insert(entityMatrix);

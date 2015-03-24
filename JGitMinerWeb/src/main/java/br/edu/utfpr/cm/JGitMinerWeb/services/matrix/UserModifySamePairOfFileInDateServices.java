@@ -90,7 +90,7 @@ public class UserModifySamePairOfFileInDateServices extends AbstractMatrixServic
 
         List<EntityRepositoryCommit> commits = dao.selectWithParams(jpql,
                 new String[]{"repo", "beginDate", "endDate", "minFilesPerCommit"},
-                new Object[]{getRepositorys(), getBeginDate(), getEndDate(), minFilesPerCommit});
+                new Object[]{getRepositorys().get(0), getBeginDate(), getEndDate(), minFilesPerCommit});
 
         // primeiro monta-se a rede dos desenvolvedores e os pares de arquivos
         List<AuxUserFileFile> temp = new ArrayList<>();
