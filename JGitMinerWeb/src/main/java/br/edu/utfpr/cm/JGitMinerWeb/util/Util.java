@@ -244,7 +244,6 @@ public class Util {
 
         data = data.replaceAll("/", "");
 
-
         if (!soContemNumeros(data)) {
             return false;
         }
@@ -476,8 +475,8 @@ public class Util {
             }
         }
     }
-    
-    public static boolean stringEquals(String s1, String s2){
+
+    public static boolean stringEquals(String s1, String s2) {
         if (s1 == null || s2 == null) {
             return false;
         }
@@ -491,10 +490,18 @@ public class Util {
     }
 
     public static Integer stringToInteger(String num) {
-       try{
-           return Integer.parseInt(num);
-       }catch(Exception ex){
-           return 0;
-       }
+        try {
+            return Integer.parseInt(num);
+        } catch (Exception ex) {
+            return 0;
+        }
+    }
+
+    public static boolean ePar(int numero) {
+        if (numero % 2 == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
