@@ -110,6 +110,11 @@ public class FiltersServices extends AbstractMatrixServices {
                         aux.setGreaterAmountOfPullRequestByTheSameUser(findNumberGreaterAmountOfPullRequestSubmittedByTheSameUser(repo) + "");
                         aux.setLessAmountOfPullRequestByTheSameUser(findNumberLessAmountOfPullRequestSubmittedByTheSameUser(repo) + "");
                         break;
+                    case "COMMIT_SIZE":
+                        aux.setCommitSizeAddedLines(findCommitSize(repo, "additions") + "");
+                        aux.setCommitSizeChangedlines(findCommitSize(repo, "changes") + "");
+                        aux.setCommitSizeDeletedLines(findCommitSize(repo, "deletions") + "");
+                        break;
                     default:
                         System.out.println("Option not found !!!");
                 }
@@ -443,9 +448,51 @@ public class FiltersServices extends AbstractMatrixServices {
         return 0L;
     }
 
+    private Long findCommitSize(EntityRepository repository, String type) {
+
+        if (type.equals("additions")) {
+
+            String additions = "select sum(cf.additions) "
+                    + "from gitRepositoryCommit rc "
+                    + "left join gitCommitFile cf on rc.id = cf.repositoryCommit_id "
+                    + "where rc.repository_id = " + repository.getId().toString();
+
+            List<Long> listAdditions = dao.selectNativeWithParams(additions, null);
+            if ((listAdditions != null) && (!listAdditions.isEmpty())) {
+                return listAdditions.get(0);
+            }
+
+        } else if (type.equals("changes")) {
+
+            String changes = "select sum(cf.changes) "
+                    + "from gitRepositoryCommit rc "
+                    + "left join gitCommitFile cf on rc.id = cf.repositoryCommit_id "
+                    + "where rc.repository_id = " + repository.getId().toString();
+
+            List<Long> listChanges = dao.selectNativeWithParams(changes, null);
+            if ((listChanges != null) && (!listChanges.isEmpty())) {
+                return listChanges.get(0);
+            }
+
+        } else if (type.equals("deletions")) {
+
+            String deletions = "select sum(cf.deletions) "
+                    + "from gitRepositoryCommit rc "
+                    + "left join gitCommitFile cf on rc.id = cf.repositoryCommit_id "
+                    + "where rc.repository_id = " + repository.getId().toString();
+
+            List<Long> listDeletions = dao.selectNativeWithParams(deletions, null);
+            if ((listDeletions != null) && (!listDeletions.isEmpty())) {
+                return listDeletions.get(0);
+            }
+        }
+
+        return 0L;
+    }
+
     @Override
     public String getHeadCSV() {
-        return "Repository_Name;Amount_Of_Stars;Amount_Of_Contributors;Repository_Age_In_Months;Amount_Of_Open_Issue;Amount_Of_Close_Issue;Amount_Of_Comments_Issues;Average_Amount_Comments_Issues;Amount_Of_Commits;Amount_Of_Commits_Pull_Request;Amount_Of_Followers_Users_Project;Amount_Of_Comments_Closed_Pull_Request;Amount_Of_Commit_Inclusion_Test;Average_Amount_Of_Commit_Inclusion_Test;Average_Pull_Request_Submitted_By_The_Same_User;Median_Pull_Request_Submitted_By_The_Same_User;Greater_Amount_Of_Pull_Request_Submitted_By_The_Same_User;Less_Amount_Of_Pull_Request_Submitted_By_The_Same_User";
+        return "Repository_Name;Amount_Of_Stars;Amount_Of_Contributors;Repository_Age_In_Months;Amount_Of_Open_Issue;Amount_Of_Close_Issue;Amount_Of_Comments_Issues;Average_Amount_Comments_Issues;Amount_Of_Commits;Amount_Of_Commits_Pull_Request;Amount_Of_Followers_Users_Project;Amount_Of_Comments_Closed_Pull_Request;Amount_Of_Commit_Inclusion_Test;Average_Amount_Of_Commit_Inclusion_Test;Average_Pull_Request_Submitted_By_The_Same_User;Median_Pull_Request_Submitted_By_The_Same_User;Greater_Amount_Of_Pull_Request_Submitted_By_The_Same_User;Less_Amount_Of_Pull_Request_Submitted_By_The_Same_User;Amount_Added_Lines;Amount_Changed_Lines;Amount_Deleted_Lines";
 
     }
 

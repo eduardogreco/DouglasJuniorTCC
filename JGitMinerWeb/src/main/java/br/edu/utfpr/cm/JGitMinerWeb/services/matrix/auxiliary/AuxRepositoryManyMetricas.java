@@ -24,6 +24,9 @@ public class AuxRepositoryManyMetricas {
     private String medianPullRequestSubmittedByTheSameUser;
     private String greaterAmountOfPullRequestByTheSameUser;
     private String lessAmountOfPullRequestByTheSameUser;
+    private String commitSizeAddedLines;
+    private String commitSizeChangedlines;
+    private String commitSizeDeletedLines;
 
     public AuxRepositoryManyMetricas() {
         amountStars = "not_calculated";
@@ -43,6 +46,9 @@ public class AuxRepositoryManyMetricas {
         medianPullRequestSubmittedByTheSameUser = "not_calculated";
         greaterAmountOfPullRequestByTheSameUser = "not_calculated";
         lessAmountOfPullRequestByTheSameUser = "not_calculated";
+        commitSizeAddedLines = "not_calculated";
+        commitSizeChangedlines = "not_calculated";
+        commitSizeDeletedLines = "not_calculated";
     }
 
     public String getRepositoryName() {
@@ -189,8 +195,32 @@ public class AuxRepositoryManyMetricas {
         this.lessAmountOfPullRequestByTheSameUser = lessAmountOfPullRequestByTheSameUser;
     }
 
+    public String getCommitSizeAddedLines() {
+        return commitSizeAddedLines;
+    }
+
+    public void setCommitSizeAddedLines(String commitSizeAddedLines) {
+        this.commitSizeAddedLines = commitSizeAddedLines;
+    }
+
+    public String getCommitSizeChangedlines() {
+        return commitSizeChangedlines;
+    }
+
+    public void setCommitSizeChangedlines(String commitSizeChangedlines) {
+        this.commitSizeChangedlines = commitSizeChangedlines;
+    }
+
+    public String getCommitSizeDeletedLines() {
+        return commitSizeDeletedLines;
+    }
+
+    public void setCommitSizeDeletedLines(String commitSizeDeletedLines) {
+        this.commitSizeDeletedLines = commitSizeDeletedLines;
+    }
+
     @Override
     public String toString() {
-        return repositoryName + ";" + amountStars + ";" + amountContributors + ";" + ageInMonths + ";" + amountOpenIssue + ";" + amountCloseIssue + ";" + amountCommentsIssues + ";" + averageAmountCommentsIssues + ";" + amountCommits + ";" + amountCommitsPullRequest + ";" + amountFollowersUsersProject + ";" + amountCommentsClosedPullRequest + ";" + amountCommitInclusionTest + ";" + averageAmountCommitInclusionTest + ";" + averagePullRequestSubmittedByTheSameUser + ";" + medianPullRequestSubmittedByTheSameUser + ";" + greaterAmountOfPullRequestByTheSameUser + ";" + lessAmountOfPullRequestByTheSameUser;
+        return repositoryName + ";" + amountStars + ";" + amountContributors + ";" + ageInMonths + ";" + amountOpenIssue + ";" + amountCloseIssue + ";" + amountCommentsIssues + ";" + averageAmountCommentsIssues + ";" + amountCommits + ";" + amountCommitsPullRequest + ";" + amountFollowersUsersProject + ";" + amountCommentsClosedPullRequest + ";" + amountCommitInclusionTest + ";" + averageAmountCommitInclusionTest + ";" + averagePullRequestSubmittedByTheSameUser + ";" + medianPullRequestSubmittedByTheSameUser + ";" + greaterAmountOfPullRequestByTheSameUser + ";" + lessAmountOfPullRequestByTheSameUser + ";" + commitSizeAddedLines + ";" + commitSizeChangedlines + ";" + commitSizeDeletedLines;
     }
 }
