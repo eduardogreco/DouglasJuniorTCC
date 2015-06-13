@@ -27,6 +27,7 @@ public class AuxRepositoryManyMetricas {
     private String commitSizeAddedLines;
     private String commitSizeChangedlines;
     private String commitSizeDeletedLines;
+    public double distance;
 
     public AuxRepositoryManyMetricas() {
         amountStars = "not_calculated";
@@ -217,6 +218,14 @@ public class AuxRepositoryManyMetricas {
 
     public void setCommitSizeDeletedLines(String commitSizeDeletedLines) {
         this.commitSizeDeletedLines = commitSizeDeletedLines;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     @Override

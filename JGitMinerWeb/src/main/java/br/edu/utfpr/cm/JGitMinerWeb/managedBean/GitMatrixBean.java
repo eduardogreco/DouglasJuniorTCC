@@ -34,7 +34,7 @@ public class GitMatrixBean implements Serializable {
     private List<EntityRepository> repositorys;
     private Class<?> serviceClass;
     private Map<Object, Object> params;
-    private List <String> selectedFiltersParams;
+    private List<String> selectedFiltersParams;
     private String message;
     private Thread process;
     private Integer progress;
@@ -121,7 +121,7 @@ public class GitMatrixBean implements Serializable {
         canceled = false;
         fail = false;
         progress = 0;
-        
+
         repositorys = new ArrayList<EntityRepository>();
         for (String idRepository : selectedRepository) {
             EntityRepository repository = dao.findByID(idRepository, EntityRepository.class);
@@ -169,7 +169,11 @@ public class GitMatrixBean implements Serializable {
                                 out.printLog("Salvando matriz com " + entityMatrix.getNodes().size() + " registros. Parametros: " + entityMatrix.getParams());
                                 entityMatrix.setStarted(started);
                                 entityMatrix.getParams().putAll(params);
-                                entityMatrix.setRepository(repositorys.toString());
+                                if (repositorys.toString().length() > 200) {
+                                    entityMatrix.setRepository("Metricas-Filter-Services");
+                                } else {
+                                    entityMatrix.setRepository(repositorys.toString());
+                                }
                                 entityMatrix.setClassServicesName(serviceClass.getName());
                                 entityMatrix.setLog(out.getLog().toString());
                                 for (EntityMatrixNode node : entityMatrix.getNodes()) {

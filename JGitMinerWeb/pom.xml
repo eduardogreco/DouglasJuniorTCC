@@ -109,6 +109,21 @@
             <version>1.0.3</version>
         </dependency>
         
+        <!-- Euclidean distance
+        <dependency>
+            <groupId>com.aliasi</groupId>
+            <artifactId>lingpipe</artifactId>
+            <version>4.1.0</version>
+        </dependency>-->
+        
+        <dependency>
+            <groupId>com.aliasi</groupId>
+            <artifactId>lingpipe</artifactId>
+            <version>4.1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/lingpipe-4.1.0.jar</systemPath>
+        </dependency>
+        
         <!-- Files exportes -->
         <dependency>
             <groupId>net.sf.opencsv</groupId>

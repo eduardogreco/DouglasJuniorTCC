@@ -66,9 +66,9 @@ public class FiltersServices extends AbstractMatrixServices {
             AuxRepositoryManyMetricas aux = new AuxRepositoryManyMetricas();
             aux.setRepositoryName(repo.getName());
 
-            for (String nameFilter : getSelectedFiltersParams()) {
+            for (String metrics : getSelectedFiltersParams()) {
 
-                switch (nameFilter) {
+                switch (metrics) {
                     case "STARS":
                         aux.setAmountStars(findStars(repo) + "");
                         break;
@@ -129,7 +129,7 @@ public class FiltersServices extends AbstractMatrixServices {
 
     }
 
-    private int findStars(EntityRepository repository) { // QUANTIDADE DE ESTRELAS DO REPOSITORIO
+    private int findStars(EntityRepository repository) {
         String jpql = "SELECT u "
                 + "FROM "
                 + "EntityUser u JOIN u.starredRepositories r "
@@ -151,10 +151,9 @@ public class FiltersServices extends AbstractMatrixServices {
         return 0;
     }
 
-    private int findAgeRepository(EntityRepository repository) { // IDADE DO REPOSITORIO EM MESES
-        Period period = null;
+    private int findAgeRepository(EntityRepository repository) {
         DateTime dateRepository = new DateTime(repository.getCreatedAt());
-        period = new Period(dateRepository, new DateTime(), PeriodType.months().withDaysRemoved());
+        Period period = new Period(dateRepository, new DateTime(), PeriodType.months().withDaysRemoved());
         return period.getMonths();
     }
 
@@ -173,7 +172,6 @@ public class FiltersServices extends AbstractMatrixServices {
         };
 
         List<EntityUser> users = dao.selectWithParams(jpql, bdParams, bdObjects);
-
         if ((users != null) && (!users.isEmpty())) {
             return users.size();
         }
@@ -181,7 +179,7 @@ public class FiltersServices extends AbstractMatrixServices {
         return 0;
     }
 
-    private int findIssue(EntityRepository repository, String state) { // QUANTIDADE DE ISSUE EM UM PERIODO
+    private int findIssue(EntityRepository repository, String state) {
         String jpql = "SELECT i "
                 + "FROM "
                 + "EntityIssue i "
@@ -205,7 +203,7 @@ public class FiltersServices extends AbstractMatrixServices {
         return 0;
     }
 
-    private int findCommentIssue(EntityRepository repository) { // QUANTIDADE DE COMENTARIOS EM ISSUE EM UM PERIODO
+    private int findCommentIssue(EntityRepository repository) {
         String jpql = "SELECT c "
                 + "FROM "
                 + "EntityIssue i JOIN i.comments c "
@@ -227,7 +225,7 @@ public class FiltersServices extends AbstractMatrixServices {
         return 0;
     }
 
-    private float findAverageCommentInIssue(EntityRepository repository) { // MÉDIA DE COMENTARIOS EM ISSUES
+    private float findAverageCommentInIssue(EntityRepository repository) {
         int comments = findCommentIssue(repository);
 
         if (comments == 0) {
@@ -243,7 +241,7 @@ public class FiltersServices extends AbstractMatrixServices {
         return 0;
     }
 
-    private int findNumberCommits(EntityRepository repository) { // QUANTIDADE DE COMMITS EM UM PERIODO
+    private int findNumberCommits(EntityRepository repository) {
         String jpql = "SELECT erc "
                 + "FROM "
                 + "EntityRepositoryCommit erc "
@@ -281,7 +279,7 @@ public class FiltersServices extends AbstractMatrixServices {
         return 0;
     }
 
-    private int findFollowersUsersProject(EntityRepository repository) { //QUANTIDADE DE SEGUIDORES DOS USUARIOS DO PROJETO
+    private int findFollowersUsersProject(EntityRepository repository) {
         int amount = 0;
 
         String jpql = "SELECT u "
@@ -299,7 +297,6 @@ public class FiltersServices extends AbstractMatrixServices {
         };
 
         List<EntityUser> usersFollowers = dao.selectWithParams(jpql, bdParams, bdObjects);
-
         for (EntityUser u : usersFollowers) {
             amount += u.getFollowers();
         }
@@ -307,7 +304,7 @@ public class FiltersServices extends AbstractMatrixServices {
         return amount;
     }
 
-    private Long findNumberCommentsClosedPull(EntityRepository repository) { // QUANTIDADE DE COMENTARIOS EM PULL REQUEST FECHADO
+    private Long findNumberCommentsClosedPull(EntityRepository repository) {
         Long amount = 0L;
         String jpql = "select sum(i.commentscount) "
                 + "from gitPullRequest g, gitissue i "
@@ -324,7 +321,7 @@ public class FiltersServices extends AbstractMatrixServices {
         return amount;
     }
 
-    private int findNumberCommitInclusionTest(EntityRepository repository) { // QUANTIDADE DE COMMITS COM ARQUIVO DE TESTE
+    private int findNumberCommitInclusionTest(EntityRepository repository) {
         String jpql = "select rc.id as id_pai, count(cf.id) as valor "
                 + "from gitRepositoryCommit rc "
                 + "left join gitCommitFile cf on rc.id = cf.repositoryCommit_id "
@@ -339,7 +336,7 @@ public class FiltersServices extends AbstractMatrixServices {
         return 0;
     }
 
-    private float findAverageNumberCommitInclusionTest(EntityRepository repository, int AmountInclusionTest) { // MEDIA DE COMMITS COM ARQUIVO DE TESTE
+    private float findAverageNumberCommitInclusionTest(EntityRepository repository, int AmountInclusionTest) {
         String jpql = "select rc.id as id_pai, count(cf.id) as valor "
                 + "from gitRepositoryCommit rc "
                 + "left join gitCommitFile cf on rc.id = cf.repositoryCommit_id "

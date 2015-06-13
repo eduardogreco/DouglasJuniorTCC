@@ -49,7 +49,7 @@
                     <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop)" ajax="false" value="CSV">
                         <p:fileDownload value="#{gitMatrixViewBean.downloadCSV(matrix)}" />  
                     </p:commandButton> 
-                      <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop)" ajax="false" value="TXT">
+                    <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop)" ajax="false" value="TXT">
                         <p:fileDownload value="#{gitMatrixViewBean.downloadTXT(matrix)}" />  
                     </p:commandButton> 
                     <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop)"  ajax="false" value="Params">
@@ -61,6 +61,11 @@
                 <p:column headerText="Options">
                     <p:commandButton  icon="ui-icon-trash" title="Delete this Matrix" actionListener="#{gitMatrixViewBean.addMatrixForDeleteInSession(matrix)}"
                                       id="matrixDelete" oncomplete="confirmation.show()" />
+
+                 <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop)"  ajax="false" value="Run BSAS">
+                        <p:fileDownload value="#{gitMatrixViewBean.runBSAS(matrix)}" />  
+                 </p:commandButton> 
+
                 </p:column>
             </p:dataTable>
 
@@ -78,14 +83,14 @@
         <p:dialog modal="true" widgetVar="statusDialog" header="Loading..." draggable="false" closable="false" resizable="false">
             <p:graphicImage value="resources/images/ajaxloadingbar.gif" />                                                       
         </p:dialog>                                                                                                              
-        <script type="text/javascript">                                                                                          
-            function start() {                                                                                                   
-                statusDialog.show();                                                                                             
-            }                                                                                                                    
-                                                                                                                                
-            function stop() {                                                                                                    
-                statusDialog.hide();                                                                                             
-            }                                                                                                                    
+        <script type="text/javascript">
+            function start() {
+                statusDialog.show();
+            }
+
+            function stop() {
+                statusDialog.hide();
+            }
         </script>                                                                                                                
 
     </p:fieldset>

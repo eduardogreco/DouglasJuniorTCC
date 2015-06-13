@@ -1,14 +1,21 @@
 package br.edu.utfpr.cm.JGitMinerWeb.managedBean;
 
+import br.edu.utfpr.cm.JGitMinerWeb.bsas.BSAS;
+import br.edu.utfpr.cm.JGitMinerWeb.bsas.Cluster;
+import br.edu.utfpr.cm.JGitMinerWeb.bsas.Element;
 import br.edu.utfpr.cm.JGitMinerWeb.dao.GenericDao;
 import br.edu.utfpr.cm.JGitMinerWeb.model.matrix.EntityMatrix;
 import br.edu.utfpr.cm.JGitMinerWeb.model.matrix.EntityMatrixNode;
 import br.edu.utfpr.cm.JGitMinerWeb.services.matrix.AbstractMatrixServices;
+import br.edu.utfpr.cm.JGitMinerWeb.services.metric.auxiliary.AuxBSASMetrics;
 import br.edu.utfpr.cm.JGitMinerWeb.util.JsfUtil;
+import br.edu.utfpr.cm.JGitMinerWeb.util.Util;
+import com.aliasi.matrix.DenseVector;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -108,8 +115,8 @@ public class GitMatrixViewBean implements Serializable {
         }
         return file;
     }
-    
-        public StreamedContent downloadTXT(EntityMatrix matrix) {
+
+    public StreamedContent downloadTXT(EntityMatrix matrix) {
         StreamedContent file = null;
         try {
             System.out.println("Matriz tem nodes: " + matrix.getNodes().size());
@@ -174,6 +181,81 @@ public class GitMatrixViewBean implements Serializable {
             JsfUtil.addErrorMessage(ex.toString());
         }
         return file;
+    }
+
+    public StreamedContent runBSAS(EntityMatrix matrix) {
+        StreamedContent file = null;
+        try {
+            /*
+            INICIO EXECUCAO BSAS
+            */
+            List<Element> elements = createElements(matrix);
+
+            double toleranceValue = 70000;//0.034; //Uma distância de tolerância para a criação dos clusters.
+            int qtdMaxCluster = 10000000;
+
+            HashMap<Integer, Cluster> clusters = new BSAS().runBSAS(elements, toleranceValue, qtdMaxCluster);
+            for (Integer k : clusters.keySet()) {
+                clusters.get(k).calculateCohesion();
+            }
+
+            List<AuxBSASMetrics> fileBSAS = new ArrayList<>();
+
+            for (Integer i : clusters.keySet()) {
+                Cluster c = clusters.get(i);
+                for (Element e : c.getVectors()) {
+                    fileBSAS.add(new AuxBSASMetrics(i, e.getDataset(), e.getDistance(), c.getCohesion()));
+                }
+            }
+            
+            /*
+            INICIO GERACAO ARQUIVO .CSV
+            */
+            String fileName = generateFileName(matrix) + "-BSAS.csv";
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintWriter pw = new PrintWriter(baos);
+
+            AbstractMatrixServices services = AbstractMatrixServices.createInstance(null, null, matrix.getClassServicesName());
+
+            pw.println("cluster;project;distance;coesion");
+
+            for (AuxBSASMetrics node : fileBSAS) {
+                pw.println(node.toString());
+            }
+
+            pw.flush();
+            pw.close();
+
+            file = JsfUtil.downloadFile(fileName, baos.toByteArray());
+
+            baos.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JsfUtil.addErrorMessage(ex.toString());
+        }
+        return file;
+    }
+
+    //CRIAR ELEMENTOS BSAS
+    private List<Element> createElements(EntityMatrix matrix) {
+        List<Element> elements = new ArrayList<>();
+        for (EntityMatrixNode node : matrix.getNodes()) {
+            String[] columns = node.getLine().split(";");
+            List<Double> metrics = new ArrayList<>();
+            for (int i = 1; i < columns.length; i++) {
+                if (!columns[i].equals("not_calculated")) {
+                    double calculed = Util.tratarStringParaDouble(columns[i]);
+                    metrics.add(calculed);
+                }
+            }
+            double[] values = new double[metrics.size()];
+            for (int i = 0; i < values.length; i++) {
+                values[i] = metrics.get(i);
+            }
+            elements.add(new Element(columns[0], new DenseVector(values)));
+        }
+        return elements;
     }
 
     private String generateFileName(EntityMatrix matrix) {
